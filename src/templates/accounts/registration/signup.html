@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card shadow-custom col-lg-5 mx-auto py-4 mt-5">
+        <h3 class="text-center text-grey mb-3">
+            <strong>Select Account Type</strong>
+        </h3>
+        <div class="row justify-content-center">
+            <a href="{% url 'accounts:customers-signup' %}" class="btn btn-danger col-md-6 text-white text-decoration-none">
+                <strong>Sign Up as Customer</strong>
+            </a>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <a href="{% url 'accounts:merchants-signup' %}" class="btn btn-warning col-md-6 text-dark text-decoration-none">
+                <strong>Sign Up as Merchant</strong>
+            </a>
+        </div>
+    </div>
+{% endblock %}

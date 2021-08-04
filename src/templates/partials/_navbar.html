@@ -1,0 +1,89 @@
+{% load static %}
+{% load humanize %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md orie-bg-primary navbar-dark sticky-top" id="home-navbar">
+    <a href="{% url 'stores:product-listings' %}" class="navbar-brand" id="navbar-brand-text">
+        <img src="{% static 'img/orie_bg_1.jpg' %}" alt="favicon" class="rounded-circle" width="30" height="30"> Orie
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav" id="navbar-search-form">
+            <form action="{% url 'stores:search' %}" class="form-inline">
+                <div class="input-group">
+                    <input type="search" id="search" name="keyword" class="form-control form-control-sm" placeholder="Search for products" value="{{ values.keyword }}">
+                        <span class="input-group-append">
+                        <button type="submit" class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" id="grid-navbar">
+            {% if request.user.is_authenticated %}
+                {% if request.user.is_merchant %}
+                    <li {% if 'merchant' in request.path %}class="nav-item active mr-3" {% else %}class="nav-item mr-3"{% endif %}>
+                        <a href="{% url 'accounts:merchants-profile' %}" class="nav-link">
+                            <img src="{{ request.user.profile.image.url }}" alt="{{ request.user.username }}" class="rounded-circle" width="30" height="30">
+                            &nbsp;{{ request.user.username }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li {% if 'customer' in request.path %}class="nav-item active mr-3" {% else %}class="nav-item mr-3"{% endif %}>
+                        <a href="{% url 'accounts:customers-profile' %}" class="nav-link">
+                            <img src="{{ request.user.profile.image.url }}" alt="{{ request.user.username }}" class="rounded-circle" width="30" height="30">
+                            &nbsp;{{ request.user.username }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% with total_items=cart|length %}
+                    {% if total_items > 0 %}
+                        <li class="nav-item active mr-3">
+                            <a href="{% url 'cart:cart-detail' %}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                {{ total_items }} item{{ total_items|pluralize }}
+                                &num;<span id="cart_price">{{ cart.get_total_price_after_discount|floatformat:2|intcomma }}</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item active mr-3">
+                            <a href="{% url 'cart:cart-detail' %}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                             Your cart is empty.
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endwith %}
+                <li class="nav-item mr-3">
+                    <a href="{% url 'accounts:account-signout' %}" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </a>
+                </li>
+            {% else %}
+                <li {% if 'signup' in request.path %}class="nav-item active mr-3" {% else %}class="nav-item mr-3"{% endif %}>
+                    <a href="{% url 'accounts:account-signup' %}" class="nav-link">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                </li>
+                <li {% if 'signin' in request.path %}class="nav-item active mr-3" {% else %}class="nav-item mr-3"{% endif %}>
+                    <a href="{% url 'accounts:account-signin' %}" class="nav-link">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </a>
+                </li>
+            {% endif %}
+            {% if request.path == '/' %}
+                <li class="nav-item mr-3">
+                    <a href="{% url 'stores:product-listings' %}" class="nav-link bg-primary text-white btn">
+                        <i class="fas fa-shopping-cart"></i> Start shopping
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

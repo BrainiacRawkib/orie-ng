@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-lg-3">
+            <div class="card shadow-custom border-0">
+                <h4 class="p-3 text-grey text-center">
+                    <strong>Categories</strong>
+                </h4>
+                <div class="bottom_line"></div>
+                <br>
+                <ul class="list-group border-0 categories_list">
+                    <li {% if not view.kwargs.slug %}
+                            class="list-group-item border-0 p-0 selected"
+                        {% else %}
+                            class="list-group-item border-0 p-0 unselected"
+                        {% endif %}>
+                        <a href="{% url 'stores:product-listings' %}" class="btn btn-block text-left">
+                            All
+                        </a>
+                    </li>
+                    {% for category in categories %}
+                        <li {% if category.slug == view.kwargs.slug %}
+                                class="list-group-item border-0 p-0 selected"
+                            {% else %}
+                                class="list-group-item border-0 p-0 unselected"
+                            {% endif %}>
+                            <a href="{{ category.get_absolute_url }}" class="btn btn-block text-left">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    <div>
+                        <hr>
+                    </div>
+                    <li class="list-group-item border-0 p-0 mb-2">
+                        <a href="{% url 'accounts:merchants-list' %}" class="nav-link btn btn-block text-center text-primary">
+                            <strong>All Merchants&apos; Stores</strong>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="card shadow-custom border-0 mb-4">
+                <div class="card-body text-center">
+                    <h2 class="text-grey">
+                        {% if not category %}
+                            <strong>Our Products</strong>
+                        {% else %}
+                            <strong>{{ category.name }}</strong>
+                        {% endif %}
+                    </h2>
+                    <div class="bottom_line"></div>
+                </div>
+            </div>
+            <div class="row">
+                {% for product in object_list %}
+                    <div class="col-md-6 col-sm-6 col-lg-3">
+                        <div class="card mt-3">
+                            <div class="col mt-2">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="200" class="card-img-top">
+                                </a>
+                            </div>
+                            <div class="card-body text-center">
+                                <strong>
+                                    <span>{{ product.name }}</span>
+                                </strong>
+                                {% if product.created_delta.days < 5 %}
+                                    <span class="badge badge-danger">New stock</span>
+                                {% endif %}
+                                <hr>
+                                <strong>
+                                    <span>&num;{{ product.price|intcomma }}</span>
+                                </strong>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ product.get_absolute_url }}" class="text-primary text-decoration-none">
+                                    <strong>Add to cart</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col">
+                        <h3 class="text-center">
+                            No product available.
+                        </h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

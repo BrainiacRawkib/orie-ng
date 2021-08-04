@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-10 mx-auto mb-3">
+        <div class="row py-4">
+            {% for customer in customers %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="card border-0 py-3">
+                        <div class="text-center">
+                            <img src="{{ customer.profile.image.url }}" alt="{{ customer.username }}" class="rounded-circle" width="200" height="200">
+                        </div>
+                        <div class="text-center mt-2">
+                            <p>{{ customer.username }}</p>
+                        </div>
+                        {% if request.user.is_authenticated and request.user.is_superuser %}
+                            <div class="text-center mt-2">
+                                <a href="{% url 'accounts:customer-detail' customer.username %}" class="text-grey text-decoration-none">
+                                    <strong>View Profile</strong>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

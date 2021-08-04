@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% include 'partials/_product_messages.html' %}
+    <div class="card shadow-custom col-lg-8 border-0 mx-auto pb-3">
+        <h3 class="text-center my-3">
+            <strong>Update Product</strong>
+        </h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {{ product_img_form|crispy }}
+            <button type="submit" class="btn btn-primary btn-block">
+                <strong>Update Product</strong>
+            </button>
+        </form>
+    </div>
+{% endblock %}

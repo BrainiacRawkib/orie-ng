@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-12 mx-auto mb-3">
+        <h3 class="py-2 font-weight-bolder text-grey text-center">Your Cart</h3>
+        <div class="row justify-content-center py-2 text-center header-desc">
+            <div class="col-lg-2 align-self-center"><strong>Product</strong></div>
+            <div class="col-lg-2 align-self-center"><strong>Description</strong></div>
+            <div class="col-lg-2 align-self-center"><strong>Availability</strong></div>
+            <div class="col-lg-1 align-self-center"><strong>Price</strong></div>
+            <div class="col-lg-2 align-self-center"><strong>Quantity</strong></div>
+            <div class="col-lg-3 align-self-center"><strong>Total Price</strong></div>
+        </div>
+
+        <hr class="mt-0">
+
+        {% for item in cart %}
+            {% with item.product as product %}
+                <div class="row justify-content-center cart">
+                    <div class="cart-item col-sm-12 col-lg-2">
+                        <a href="{{ product.get_absolute_url }}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300" height="200">
+                        </a>
+                    </div>
+                    <div class="cart-item product-name col-12 col-lg-2 align-self-center text-center">
+                        {{ product.name }}
+                    </div>
+                    <div class="cart-item col-12 col-lg-2 align-self-center">
+                        {% if product.available %}
+                            <div class="text-green mb-0 text-center">
+                                Available
+                            </div>
+                        {% else %}
+                            <div class="text-danger mb-0 text-center">
+                                Not Available
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="cart-item col-12 col-sm-3 col-lg-1 align-self-center text-center">
+                        <span>&num;{{ product.price|intcomma }}</span>
+                    </div>
+                    <div class="cart-item col-6 col-sm-5 col-lg-2 align-self-center">
+                        <form action="{% url 'cart:cart-add' product.pk %}" method="post">
+                            {% csrf_token %}
+                            <span class="input-group shopping-cart">
+                                {{ item.update_quantity_form.quantity }}
+                                {{ item.update_quantity_form.override }}
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn text-white" data-toggle="tooltip" data-placement="top" title="Update">
+{#                                        <i class="fas fa-edit"></i>#}
+                                        update
+                                    </button>
+                                </span>
+                            </span>
+                        </form>
+                    </div>
+
+                    <div class="cart-item col-12 col-sm-3 col-lg-2 align-self-center text-right">
+                        <span>&num;{{ item.total_price|intcomma }}</span>
+                    </div>
+                    <div class="cart-item col-12 col-lg-1 align-self-center text-right">
+                        <form action="{% url 'cart:cart-remove' product.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn" data-toggle="tooltip" data-placement="top" title="Remove">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <br>
+            {% endwith %}
+        {% empty %}
+            <div class="align-self-center">
+                <p class="text-center font-weight-bold text-muted lead">
+                    Your shopping cart <i class="fas fa-shopping-cart"></i> is empty.
+                </p>
+            </div>
+        {% endfor %}
+        <hr>
+        {% if cart.coupon %}
+             <div class="total-price-cart">
+                <h6 class="row justify-content-end">
+                    <span class="text-grey">
+                        <strong>SubTotal Cost:</strong>&nbsp;
+                    </span>
+                    <span class="text-success">
+                      <strong> &num;{{ cart.get_total_price_after_discount|floatformat:2|intcomma }}</strong>
+                    </span>
+{#                    <span class="col-2 col-lg-1"></span>#}
+                    &nbsp;&nbsp;&nbsp;
+                </h6>
+            </div>
+            <hr>
+            <div class="total-price-cart">
+                <h6 class="row justify-content-end">
+                    <span class="text-grey">
+                        <strong>&quot;{{ cart.coupon.code }}&quot; code</strong>&nbsp;
+                    </span>
+                    <span class="text-grey">
+                        <strong>&lpar;{{ cart.coupon.discount }}&percnt;off&rpar;&colon;</strong>&nbsp;
+                    </span>
+                    <span class="text-danger">
+                      <strong>&minus; &num;{{ cart.get_discount|floatformat:2 }}</strong>
+                    </span>
+                    &nbsp;&nbsp;&nbsp;
+                </h6>
+            </div>
+        {% endif %}
+        <hr>
+        <div class="total-price-cart">
+            <h5 class="row justify-content-end">
+                <span class="text-grey">
+                    <strong>Total Cost:</strong>&nbsp;
+                </span>
+                <span class="text-success">
+                  <strong> &num;{{ cart.get_total_price|floatformat:2|intcomma }}</strong>
+                </span>
+                &nbsp;&nbsp;&nbsp;
+            </h5>
+        </div>
+        <hr>
+        <div class="total-price-cart">
+            <h5 class="row justify-content-start mb-0">
+                &nbsp;&nbsp;&nbsp;
+                <div class="col-lg-2 col-md-4 col-12">
+                    <form action="{% url 'coupons:coupon-apply' %}" class="form-group" method="post">
+                        {% csrf_token %}
+                        {{ coupon_apply_form }}
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            <strong>Apply Coupon</strong>
+                        </button>
+                    </form>
+                </div>
+            </h5>
+        </div>
+        <hr>
+        <div class="col-lg-10 mx-auto mb-5">
+            <div class="row justify-content-end">
+                {% if cart|length > 0 %}
+                    <div class="col-lg-6 px-0">
+                        <div class="btn-group d-flex">
+                            <a href="{% url 'stores:product-listings' %}" class="btn btn-warning shadow-custom col">
+                                <strong>Continue Shopping</strong> <i class="fas fa-shopping-basket"></i>
+                            </a>
+                            <a href="{% url 'orders:order-create' %}" class="btn btn-primary shadow-custom col">
+                                <strong>Checkout</strong> <i class="fas fa-money-check"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-lg-3 px-6">
+                        <div class="btn-group d-flex">
+                            <a href="{% url 'stores:product-listings' %}" class="btn btn-warning shadow-custom col">
+                                <strong>Back to store</strong> <i class="fas fa-shopping-basket"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br>
+    {% if recommended_products %}
+        <div class="card shadow-custom border-0 col-lg-12 mx-auto">
+            <p>{{ cart_cart }}</p>
+            <br>
+            <p>{{ cart_products }}</p>
+             <h4 class="text-grey mt-3">
+                 {% if recommended_products|length > 1 %}
+                     <strong>You may like some of these&colon;</strong>
+                 {% else %}
+                     <strong>You may like this&colon;</strong>
+                 {% endif %}
+             </h4>
+            <div class="row">
+                {% for product in recommended_products %}
+                    <div class="col-md-4 col-sm-6 col-lg-3 col-xl-2 my-3">
+                        <div class="card mt-3">
+                            <div class="col mt-2">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="200" class="card-img-top">
+                                </a>
+                            </div>
+                            <div class="card-body text-center">
+                                <strong>
+                                    <span>{{ product.name }}</span>
+                                </strong>
+                                {% if product.created_delta.days < 5 %}
+                                    <span class="badge badge-danger">New stock</span>
+                                {% endif %}
+                                <hr>
+                                <strong>
+                                    <span>&num;{{ product.price|intcomma }}</span>
+                                </strong>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ product.get_absolute_url }}" class="text-primary text-decoration-none">
+                                    <strong>Add to cart</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

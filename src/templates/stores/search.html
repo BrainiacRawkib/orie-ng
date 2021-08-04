@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div class="card shadow-custom col-lg-12 mx-auto py-3">
+        <h3 class="text-grey text-center mb-3">
+            <strong>Products Found</strong>
+        </h3>
+        <!-- results -->
+        <div class="col-lg-9">
+            <div class="row">
+                {% for product in results %}
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card mt-3">
+                            <div class="col mt-2">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="200" class="card-img-top">
+                                </a>
+                            </div>
+                            <div class="card-body text-center">
+                                <strong>
+                                    <span>{{ product.name }}</span>
+                                </strong>
+                                {% if product.created_delta.days < 5 %}
+                                    <span class="badge badge-danger">New stock</span>
+                                {% endif %}
+                                <hr>
+                                <strong>
+                                    <span>&num;{{ product.price|intcomma }}</span>
+                                </strong>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ product.get_absolute_url }}" class="text-primary text-decoration-none">
+                                    <strong>Add to cart</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col">
+                        <h3 class="text-grey text-center">
+                            <strong>No products found based on your search.</strong>
+                        </h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+{% endblock %}

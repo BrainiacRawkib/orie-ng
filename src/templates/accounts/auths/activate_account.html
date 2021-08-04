@@ -1,0 +1,9 @@
+{% autoescape off %}
+    Hi {{ user.username }}, Welcome to Orie,
+    Please click on this link to activate your account and start shopping for some goodies.
+
+    <a href="{{ protocol }}://{{ domain }}{% url 'accounts:merchant-confirm-email' uidb64=uid token=token %}" class="btn btn-danger">
+        Verify Email
+    </a>
+    If you think, it's not you, then just ignore this email.
+{% endautoescape %}

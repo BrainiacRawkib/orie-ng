@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-7 mx-auto mb-3">
+        <h2 class="font-weight-bold text-center text-grey mt-2">Customer Profile</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="row justify-content-center">
+                <img src="{{ request.user.profile.image.url }}" alt="{{ request.user.username }}" class="rounded-circle" width="200" height="200">
+            </div>
+            {% csrf_token %}
+            {{ user_form|crispy }}
+            {{ profile_form|crispy }}
+            <div class="row">
+                <a href="{% url 'accounts:password-change' %}" class="btn col">
+                    <strong>Change Password</strong> <i class="fas fa-lock"></i>
+                </a>
+                <button type="submit" class="btn col">
+                    <strong>Update profile</strong>
+                </button>
+            </div>
+            <hr>
+            <div class="row justify-content-center">
+                <h3 class="text-center text-danger">
+                    <strong>Caution <i class="fas fa-exclamation-triangle"></i></strong>
+                </h3>
+            </div>
+            <div class="row justify-content-center">
+                <a href="{% url 'accounts:account-deactivate' %}" class="text-decoration-none text-danger">
+                    <strong>Delete Account</strong>
+                </a>
+            </div>
+            <hr>
+            <h4 class="text-center mb-3">
+                <strong>Your orders history:</strong>
+            </h4>
+        </form>
+        <table class="table">
+            {% for order in request.user.orders.all %}
+                <tr>
+                    <td>
+                        <a href="{{ order.get_absolute_url }}" class="text-decoration-none">
+                            {{ order.id }}
+                        </a>
+                    </td>
+                    <td>{{ order.created|date }}</td>
+                    <td class="text-green">
+                        &num;{{ order.get_total_cost|floatformat:2|intcomma }}
+                    </td>
+                    <td>
+                        <a href="{% url 'orders:user-invoice-pdf' order.id %}" class="text-decoration-none" target="_blank">
+                            <i class="far fa-file-pdf text-danger"></i> Invoice {{ order.id }}
+                        </a>
+                    </td>
+                    <td class="{% if order.order_status == 'completed' %} text-success {% else %} text-danger {% endif %}">
+                        {{ order.order_status }}
+                    </td>
+                </tr>
+            {% empty %}
+                <p class="text-center">
+                    No orders yet
+                </p>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

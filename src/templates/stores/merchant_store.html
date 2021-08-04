@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div class="card shadow-custom col-lg-10 mx-auto pb-3">
+        <div class="row justify-content-center my-3">
+            <img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="img-fluid" width="200" height="200">
+        </div>
+        <h3 class="text-center mb-4">
+            <strong>{{ user.username }}&apos;s Store</strong>
+        </h3>
+        {% if request.user.is_authenticated and request.user.is_merchant %}
+            {% if view.kwargs.username == request.user.username %}
+                <div class="row mb-3">
+                    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                        <a href="{% url 'stores:product-add' %}" class="text-decoration-none btn btn-success">
+                            <i class="fas fa-plus"></i> Add new product
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        <h3 class="text-center mb-4">
+            <strong>Products</strong>
+        </h3>
+        <div class="row">
+            {% for product in object_list %}
+                <div class="col-md-4 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card mt-3">
+                        <div class="col mt-2">
+                            <a href="{{ product.get_absolute_url }}">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="200" class="card-img-top">
+                            </a>
+                        </div>
+                        <div class="card-body text-center">
+                            <strong>
+                                <span>{{ product.name }}</span>
+                            </strong>
+                            {% if product.created_delta.days < 5 %}
+                                <span class="badge badge-danger">New stock</span>
+                            {% endif %}
+                            <hr>
+                            <strong>
+                                <span>&num;{{ product.price|intcomma }}</span>
+                            </strong>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{{ product.get_absolute_url }}" class="text-primary text-decoration-none">
+                                <strong>Add to cart</strong>
+                            </a>
+                        </div>
+                    </div>
+                    {% if product.merchant_id == request.user.id %}
+                        <a href="{% url 'stores:product-update' product.slug %}" class="btn btn-primary btn-block mt-3">
+                            <strong>Update {{ product.name }}</strong>
+                        </a>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="col">
+                    <h4 class="text-grey text-center">
+                        No product in this store.
+                    </h4>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+    <!-- pagination -->
+    {% include 'partials/_pagination.html' %}
+{% endblock %}

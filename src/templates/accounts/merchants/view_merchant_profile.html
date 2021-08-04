@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-7 mx-auto mb-3 pb-4">
+        <h2 class="font-weight-bold text-center text-grey mt-2 mb-4">
+            Merchant Profile
+        </h2>
+        <div class="row justify-content-center mb-5">
+            <img src="{{ merchant.profile.image.url }}" alt="{{ merchant.username }}" class="rounded-circle" width="200" height="200">
+        </div>
+        <div class="row mb-md-3">
+            <div class="col-md-6">
+                <strong>First Name:</strong> {{ merchant.first_name }}
+            </div>
+            <div class="col-md-6">
+                <strong>Last Name:</strong> {{ merchant.last_name }}
+            </div>
+        </div>
+        <div class="row mb-md-3">
+            <div class="col-md-6">
+                <strong>Username:</strong> {{ merchant.username }}
+            </div>
+            <div class="col-md-6">
+                <strong>Email:</strong> {{ merchant.email }}
+            </div>
+        </div>
+        <div class="row mb-md-3">
+            <div class="col-md-6">
+                <strong>Contact:</strong> {{ merchant.contact }}
+            </div>
+            <div class="col-md-6">
+                <strong>Address:</strong> {{ merchant.address }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

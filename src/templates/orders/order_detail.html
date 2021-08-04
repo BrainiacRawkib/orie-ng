@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-7 mx-auto mb-3">
+        <div class="mt-2">
+            <span class="h2 font-weight-bolder muted">
+                Orie
+            </span>
+            <span class="float-right order_number">
+                <strong>Order #{{ order.pk }}</strong>
+            </span>
+        </div>
+        <div class="mt-3">
+            Created: {{ order.created|date }}
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <strong>Orie</strong>
+
+                Email: orie@gmail.com <br>
+                Website: www.orie.com <br>
+                Contact: +234809876457 <br>
+                Address: 23, Taiwo Street, Ogun State
+            </div>
+            <div class="col-lg-6">
+                <strong>Buyer</strong>
+                Name: {{ order.first_name }} {{ order.last_name }} <br>
+                Email: {{ order.email }} <br>
+                Contact: {{ order.contact }} <br>
+                Address: {{ order.address }} <br>
+                Postal Code: {{ order.zip_code }} <br>
+                City: {{ order.city }} <br>
+                State: {{ order.state }} <br>
+            </div>
+        </div>
+        <hr>
+        <h3>Your Order:</h3>
+        <table class="table mt-3">
+            <thead class="thead-detail">
+                <tr>
+                    <th>Product</th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Quantity</th>
+                    <th class="text-right">Price Total</th>
+                </tr>
+            </thead>
+            <tbody class="tbody-detail">
+                {% for item in order.items.all %}
+                    <tr>
+                        <td class="order_product">
+                            {{ item.product.name }}
+                        </td>
+                        <td class="num text-right">
+                            {{ item.price|intcomma }}
+                        </td>
+                        <td class="num text-right">
+                            {{ item.quantity }}&times;
+                        </td>
+                        <td class="num text-right">
+                            &num;{{ item.get_cost|intcomma }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                    <tr class="total font-weight-bolder">
+                        <td colspan="3">
+                            Total Price:
+                        </td>
+                        <td class="num text-right">
+                            &num;{{ order.get_total_cost|floatformat:2|intcomma }}
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

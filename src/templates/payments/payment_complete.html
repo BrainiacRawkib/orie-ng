@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-5 mx-auto mb-3">
+        <div class="py-3">
+            <h3 class="text-center">
+                <strong>Payment Successful.</strong>
+            </h3>
+            <h4 class="text-center text-success my-2">
+                <i class="fas fa-check-circle fa-3x"></i>
+            </h4>
+            <p class="text-center">
+                Your order id is <strong>&num;{{ order.id }}</strong>
+            </p>
+            <p class="text-center text-grey">
+                <strong>
+                    Your order is being processed.
+                </strong>
+            </p>
+        </div>
+    </div>
+{% endblock %}

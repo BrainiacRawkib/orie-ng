@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-7 mx-auto mb-3 mt-4 pb-3">
+        <h3 class="py-2 font-weight-bolder text-grey text-center">Delivery Information</h3>
+        <form action="#" id="order-payment-form" method="post">
+            {% csrf_token %}
+{#            {{ order_form|crispy }}#}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.first_name }}
+                        <label for="first_name" class="text-muted">First Name</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.last_name }}
+                        <label for="last_name" class="text-muted">Last Name</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.email }}
+                        <label for="email" class="text-muted">Email</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.contact }}
+                        <label for="contact" class="text-muted">Contact</label>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="mt-0">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.address }}
+                        <label for="address" class="text-muted">Address</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.zip_code }}
+                        <label for="zipcode" class="text-muted">Zipcode</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.city }}
+                        <label for="city" class="text-muted">City</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-field">
+                        {{ order_form.state }}
+                        <label for="state" class="text-muted">State</label>
+                    </div>
+                </div>
+            </div>
+            <hr class="mb-4">
+
+            <h4 class="py-2 font-weight-bolder text-grey">Total Price:
+                <span id="order-total" class="text-success float-right">
+                    &num;{{ cart.get_total_price_after_discount|floatformat:2|intcomma }}
+                </span>
+                <input type="hidden" value="{{ cart.get_total_price_after_discount|floatformat:2|intcomma }}" id="amount">
+            </h4>
+            <div class="col-lg-7 mx-auto mb-3">
+                <div class="row justify-content-end">
+                    <div class="col-lg-8 px-0">
+                        <div class="btn-group d-flex">
+                            <a href="{% url 'stores:product-listings' %}" class="btn btn-warning shadow-custom col">
+                                <strong>Back to store</strong> <i class="fas fa-store"></i>
+                            </a>
+{#                            <button type="submit" class="btn btn-success shadow-custom col" onclick="payWithPaystack()">#}
+                            <button type="submit" class="btn btn-primary shadow-custom col">
+                                <strong>Create order</strong> <i class="fas fa-credit-card"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- scripts -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        let order_details = {
+            first_name: "{{ order_form.first_name }}",
+            last_name: "{{ order_form.last_name }}",
+            email: "{{ order_form.email }}",
+            contact: "{{ order_form.contact }}",
+            address: "{{ order_form.address }}",
+            zip_code: "{{ order_form.zip_code }}",
+            city: "{{ order_form.city }}",
+            state: "{{ order_form.state }}",
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            dataType: "json",
+        }
+
+        const orderPaymentForm = document.getElementById('order-payment-form');
+        function saveOrder() {
+            let save_order = $.post('/order-create/', order_details);
+
+            save_order.done(function (data) {
+                return payWithPaystack(data);
+            })
+            save_order.fail(function (data) {
+                console.log(data.error.message)
+            })
+        }
+        orderPaymentForm.addEventListener('submit', payWithPaystack, false);
+        function payWithPaystack(e) {
+            e.preventDefault();
+
+            let handler = PaystackPop.setup({
+                key: "{{ paystack_public_key }}",
+                email: order_details.email,
+                amount: document.getElementById('amount').value * 100,
+                currency: "NGN",
+                onClose: function(){
+                      alert('Window closed.');
+                },
+                callback: function(response){
+                    let message = 'Payment complete! Reference: ' + response.reference;
+                    alert(message);
+                    window.location = {% url 'orders:order-created' %}
+                }
+            });
+
+            handler.openIframe();
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'partials/_carousel.html' %}
+    <div class="container mt-3">
+        <h3 class="text-center">
+            <strong>Collections</strong>
+        </h3>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="card">
+                    <div class="col mt-2">
+                        <img src="{% static 'img/orie_bg_1.jpg' %}" alt="" class="card-img-top" width="250" height="200">
+                    </div>
+                    <div class="card-body text-center">
+                        <strong>Footwears</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="card">
+                    <div class="col mt-2">
+                        <img src="{% static 'img/orie_bg_2.jpg' %}" alt="" class="card-img-top" width="250" height="200">
+                    </div>
+                    <div class="card-body text-center">
+                        <strong>Groceries</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="card">
+                    <div class="col mt-2">
+                        <img src="{% static 'img/orie_bg_3.jpg' %}" alt="" class="card-img-top" width="250" height="200">
+                    </div>
+                    <div class="card-body text-center">
+                        <strong>Electronics</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <h3 class="text-center">
+            <strong>MVP Merchants</strong>
+        </h3>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            {% for merchant in mvp_merchants %}
+                <div class="col-sm-6 col-md-3">
+                    <div class="card mt-2">
+                        <div class="col mt-2">
+                            <a href="{% url "stores:merchant-store" merchant.username %}">
+                                <img src="{{ merchant.profile.image.url }}" alt="{{ merchant.username }}" class="card-img-top" width="230" height="250">
+                            </a>
+                        </div>
+                        <div class="card-body text-center">
+                            {{ merchant.username }}&apos;s store
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{% url 'stores:merchant-store' merchant.username %}" class="text-primary text-decoration-none">
+                                <strong>Visit {{ merchant.username }}&apos;s store</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{#    <div class="container">#}
+{#        <h3 class="text-center">#}
+{#            <strong>User Cart Session</strong>#}
+{#        </h3>#}
+{#        <p>{{ user_last_session }}</p>#}
+{#    </div>#}
+{#    <br>#}
+{#    <h4 class="text-center"><strong>Current</strong></h4>#}
+{#    <div class="container">#}
+{#        {{ form.items }}#}
+{#        {% for k, v in form.items %}#}
+{#            <p>{{ k }}, {{ v }}</p>#}
+{#        {% endfor %}#}
+{#    <p>Headers</p>#}
+{#    {% for k, v in headers.items %}#}
+{#        <code>{{ k }} ---> {{ v }}</code> <br>#}
+{#    {% endfor %}#}
+{#    <p>Meta</p>#}
+{#    {% for k, v in meta.items %}#}
+{#        <kbd>{{ k }} ---> {{ v }}</kbd> <br>#}
+{#    {% endfor %}#}
+{##}
+{#    <p>SQL Queries</p>#}
+{#    {% for query in sql_queries %}#}
+{#        <p>{{ query }}</p>#}
+{#    {% endfor %}#}
+{#    </div>#}
+{% endblock %}

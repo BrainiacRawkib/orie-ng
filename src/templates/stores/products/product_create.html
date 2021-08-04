@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container mt-3" id="alert-message">
+        <div class="shadow-custom messages alert alert-info alert-dismissible text-center col-lg-7 mx-auto" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>To make a product available, leave the available option checked.</strong>
+        </div>
+    </div>
+    <div class="card shadow-custom col-lg-8 border-0 mx-auto pb-3">
+        <h3 class="text-center my-3">
+            <strong>Add Product</strong>
+        </h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {{ product_img_form|crispy }}
+            <button type="submit" class="btn btn-primary btn-block">
+                <strong>
+                    <span class="fas fa-plus"></span> Add Product
+                </strong>
+            </button>
+        </form>
+    </div>
+{% endblock %}

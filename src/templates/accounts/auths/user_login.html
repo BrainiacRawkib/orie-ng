@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card shadow-custom col-lg-4 mx-auto pb-3">
+        <h3 class="text-center text-grey py-3">
+            <strong>Login</strong>
+        </h3>
+        <form method="post" class="form-group">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-danger form-control">
+                <strong>Login</strong> <i class="fas fa-sign-in-alt"></i>
+            </button>
+            <div class="row my-3">
+                <div class="col text-center">
+                    <small>
+                        <a href="{% url 'accounts:password-reset' %}" class="text-decoration-none">
+                            <strong>Forgot Password?</strong>
+                        </a>
+                    </small>
+                </div>
+                <span>&verbar;</span>
+                <div class="col text-center">
+                    <small>
+                        <a href="{% url 'accounts:account-signup' %}" class="text-decoration-none">
+                            <strong>Don&apos;t have an account?</strong>
+                        </a>
+                    </small>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

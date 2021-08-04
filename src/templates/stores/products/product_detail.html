@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-12 mx-auto">
+        <div class="row justify-content-center">
+            <!-- product image col -->
+            <div class="col-lg-4">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" id="product-detail-img" class="mt-2">
+            </div>
+
+            <!-- product details col -->
+            <div class="col-lg-5">
+                <div class="top">
+                    <h2 class="mt-4 text-grey">
+                        <strong>{{ product.name }}</strong>
+                    </h2>
+                    <p class="text-grey">
+                        <strong>Category&colon;</strong> {{ product.category }}
+                    </p>
+
+                    <p class="text-grey">
+                        <strong>Merchant&colon;</strong>
+                        <a href="{% url 'accounts:merchant-detail' product.merchant.username %}" class="text-decoration-none">
+                            {{ product.merchant.username }}
+                        </a>
+                    </p>
+
+                    <p class="text-grey">
+                        {% if product.created_delta.days < 5 %}
+                            <span class="badge badge-danger">New stock</span>
+                        {% endif %}
+                    </p>
+
+                    <p class="text-grey">
+                        <strong>Description&colon;</strong>
+                    </p>
+
+                    <p class="text-grey">
+                        {% if product.merchant.is_superuser %}
+                            {{ product.description|safe }}
+                        {% else %}
+                            {{ product.description }}
+                        {% endif %}
+                    </p>
+
+                    <p class="text-grey">
+                        <strong>Price&colon;</strong> &num;{{ product.price|intcomma }}
+                    </p>
+
+                    {% if product.available %}
+                        <div class="alert alert-success my-3 text-center">
+                            <strong>Available</strong>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger my-3 text-center">
+                            <strong>Not Available</strong>
+                        </div>
+                    {% endif %}
+                    <hr>
+                    <div class="review">
+                        <span class="text-grey">
+                            <strong>Average rating: {{ product.get_average_rating_score }}</strong>
+                        </span>
+                        <div class="mb-3">
+                            <a href="#reviewModal" class="text-warning" id="modalAnchor">
+                                Write review
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <form action="{% url 'cart:cart-add' product.pk %}" method="post">
+                            {% csrf_token %}
+                            <span class="input-group add-to-cart shadow-custom">
+                                <span class="input-group-prepend">
+                                    <span class="input-group-text px-3 btn btn-block price">
+                                        <strong>&num;{{ product.price|intcomma }}</strong>
+                                    </span>
+                                </span>
+                                <span id="minus" class="input-group-text button_minus px-4">&minus;</span>
+                                {{ cart_product_form.quantity }}
+                                <span id="plus" class="input-group-text button_minus px-4">&plus;</span>
+                                <div class="input-group-append">
+                                    {% if product.available %}
+                                        <button type="submit" class="btn btn-danger px-4 reduce_padding" data-toggle="tooltip" title="Add to cart" data-placement="top">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" class="btn btn-danger px-4 reduce_padding" data-toggle="tooltip" title="Add to cart" data-placement="top" disabled>
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- reviews col -->
+            <div class="col-lg-3">
+                <h3 class="py-2 text-grey">Reviews:</h3>
+                {% for review in product.reviews.all %}
+                    <span class="font-weight-bolder py-2 text-grey">
+                        {{ review.author }} &middot; {{ review.ratings }} <i class="fas fa-star text-warning"></i> &middot; {{ review.created|date }}
+                    </span>
+                    <br>
+                    <span class="text-justify pb-2">
+                        {{ review.comment }}
+                    </span>
+                    <hr>
+                {% empty %}
+                    <span class="pb-2">No reviews yet</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- product images -->
+        <div id="product-image-slider" class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <img src="{{ product.image_2.url }}" alt="{{ product.name }}" width="100" height="150">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="{{ product.image_3.url }}" alt="{{ product.name }}">
+                    </li>
+                    <li class="splide__slide">
+                        <img src="{{ product.image_4.url }}" alt="{{ product.name }}">
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    {% if product.merchant_id == request.user.id %}
+        <div class="row justify-content-center mt-3">
+            <a href="{% url "stores:product-update" product.slug %}" class="btn btn-warning">
+                <strong>Update Product</strong>
+            </a>
+        </div>
+    {% endif %}
+
+    <br>
+
+    <!-- recommended products -->
+    {% if recommended_products %}
+        <div class="card shadow-custom border-0 col-lg-12 mx-auto">
+             <h4 class="text-grey mt-3">
+                 {% if recommended_products|length > 1 %}
+                     <strong>You may like some of these&colon;</strong>
+                 {% else %}
+                     <strong>You may like this&colon;</strong>
+                 {% endif %}
+             </h4>
+            <div class="row">
+                {% for product in recommended_products %}
+                    <div class="col-md-4 col-sm-6 col-lg-2 my-3">
+                        <div class="card mt-3">
+                            <div class="col mt-2">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="200" class="card-img-top">
+                                </a>
+                            </div>
+                            <div class="card-body text-center">
+                                <strong>
+                                    <span>{{ product.name }}</span>
+                                </strong>
+                                {% if product.created_delta.days < 5 %}
+                                    <span class="badge badge-danger">New stock</span>
+                                {% endif %}
+                                <hr>
+                                <strong>
+                                    <span>&num;{{ product.price|intcomma }}</span>
+                                </strong>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ product.get_absolute_url }}" class="text-primary text-decoration-none">
+                                    <strong>Add to cart</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    {% include 'partials/_review_modal.html' %}
+{% endblock %}

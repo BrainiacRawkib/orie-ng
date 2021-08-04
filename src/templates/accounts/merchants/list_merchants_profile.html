@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card shadow-custom border-0 col-lg-10 mx-auto mb-3">
+        <h4 class="text-center py-3">
+            <strong>All Merchants</strong>
+        </h4>
+        <div class="row py-4">
+            {% for merchant in merchants %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="card border-0 py-3">
+                        <div class="text-center">
+                            <img src="{{ merchant.profile.image.url }}" alt="{{ merchant.username }}" class="img-fluid border-0" width="200" height="200">
+                        </div>
+                        <div class="text-center mt-2">
+                            <p>{{ merchant.username }}</p>
+                        </div>
+                        <div class="row mt-2">
+                            {% if request.user.is_authenticated and request.user.is_superuser %}
+                                <div class="text-center col">
+                                    <a href="{% url 'accounts:merchant-detail' merchant.username %}" class="text-grey text-decoration-none">
+                                        <strong>View Profile</strong>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mt-2">
+                            <div class="text-center col">
+                                <a href="{% url 'stores:merchant-store' merchant.username %}" class="text-grey text-decoration-none">
+                                    <strong>Visit {{ merchant.username }}&apos;s Store</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

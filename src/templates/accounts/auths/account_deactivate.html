@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card shadow-custom col-lg-5 mx-auto border-0 pb-4">
+        <h3 class="text-center text-danger my-4">
+            <strong>Would you like to deactivate your account &quest;</strong>
+        </h3>
+        <div class="row justify-content-center my-3">
+            <img src="{{ request.user.profile.image.url }}" alt="{{ request.user.username }}" class="rounded-circle" width="200" height="200">
+        </div>
+        <h3 class="row justify-content-center mb-3">
+            <strong>{{ request.user.username }}</strong>
+        </h3>
+        <form action="{% url 'accounts:account-deactivate' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-danger btn-block">
+                        <strong>Yes</strong>
+                    </button>
+                </div>
+                <div class="col">
+                    {% if request.user.is_merchant %}
+                        <a href="{% url 'accounts:merchants-profile' %}" class="btn btn-success btn-block">
+                            <strong>No</strong>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'accounts:customers-profile' %}" class="btn btn-success btn-block">
+                            <strong>No</strong>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
