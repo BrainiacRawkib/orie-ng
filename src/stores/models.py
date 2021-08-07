@@ -42,10 +42,10 @@ class Product(models.Model):
     merchant = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
-    image = models.ImageField(upload_to='products/%Y/%m/%d/', default='no_image.png')
-    image_2 = models.ImageField(upload_to=get_product_name, default='no_image.png')
-    image_3 = models.ImageField(upload_to=get_product_name, default='no_image.png')
-    image_4 = models.ImageField(upload_to=get_product_name, default='no_image.png')
+    image = models.ImageField(upload_to=get_product_name, default='no_image.png')
+    image_2 = models.ImageField(upload_to=get_product_name)
+    image_3 = models.ImageField(upload_to=get_product_name)
+    image_4 = models.ImageField(upload_to=get_product_name)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     available = models.BooleanField(default=True)
     date_added = models.DateTimeField(default=now)
@@ -82,17 +82,6 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name}'
-
-
-class ProductImages(models.Model):
-    product = models.ForeignKey(Product, related_name='product_image', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='multi_products/%Y/%m/%d/', default='no_image.png')
-
-    class Meta:
-        verbose_name_plural = 'Product Images'
-
-    def __str__(self):
-        return f'{self.product.name}\' image'
 
 
 class Review(models.Model):

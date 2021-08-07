@@ -11,7 +11,7 @@ from accounts.models import User
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
 from .models import Product, Category
-from .forms import Review, ReviewForm, ProductAddForm, ProductImageForms
+from .forms import Review, ReviewForm, ProductAddForm
 from .filters import ProductFilter
 from .recommender import Recommender
 
@@ -122,7 +122,7 @@ class ProductDetailView(DetailView):
                 return redirect('stores:product-detail', self.get_object().slug)
         return self.render_to_response({
             'product': self.get_object(),
-            'title': self.object().name,
+            'title': self.get_object().name,
             'cart_product_form': self.get_cart_product_form(),
             'review_form': review_form
         })

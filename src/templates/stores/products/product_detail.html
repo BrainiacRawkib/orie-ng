@@ -48,6 +48,10 @@
                         <strong>Price&colon;</strong> &num;{{ product.price|intcomma }}
                     </p>
 
+                    <p class="text-grey">
+                        <strong>Stock left&colon;</strong> <span class="text-warning">5 stocks left</span>
+                    </p>
+
                     {% if product.available %}
                         <div class="alert alert-success my-3 text-center">
                             <strong>Available</strong>
@@ -116,22 +120,44 @@
         </div>
     </div>
 
-    <!-- product images -->
-        <div id="product-image-slider" class="splide">
-            <div class="splide__track">
-                <ul class="splide__list">
-                    <li class="splide__slide">
-                        <img src="{{ product.image_2.url }}" alt="{{ product.name }}" width="100" height="150">
-                    </li>
-                    <li class="splide__slide">
-                        <img src="{{ product.image_3.url }}" alt="{{ product.name }}">
-                    </li>
-                    <li class="splide__slide">
-                        <img src="{{ product.image_4.url }}" alt="{{ product.name }}">
-                    </li>
-                </ul>
-            </div>
+    <br>
+
+    <!-- product thumbnails -->
+    <h3 class="text-center">
+        <strong>{{ product.name }} thumbnails</strong>
+    </h3>
+
+    <div class="row justify-content-center mx-auto mt-2" id="thumbnails">
+        <div class="card-deck">
+            {% if product.image_2 %}
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{ product.image_2.url }}" data-lightbox="product-images">
+                            <img src="{{ product.image_2.url }}" alt="{{ product.name }}" class="img-thumbnail rounded">
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.image_3 %}
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{ product.image_3.url }}" data-lightbox="product-images">
+                            <img src="{{ product.image_3.url }}" alt="{{ product.name }}" class="img-thumbnail rounded">
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.image_4 %}
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{{ product.image_4.url }}" data-lightbox="product-images">
+                            <img src="{{ product.image_4.url }}" alt="{{ product.name }}" class="img-thumbnail rounded">
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
+    </div>
 
     {% if product.merchant_id == request.user.id %}
         <div class="row justify-content-center mt-3">

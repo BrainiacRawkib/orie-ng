@@ -156,7 +156,7 @@ LOGIN_URL = 'accounts:account-signin'
 INTERNAL_IPS = ['127.0.0.1']
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
+# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -171,7 +171,7 @@ USE_TZ = True
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
@@ -179,7 +179,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'orieng/static')
 ]
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
 
 # email config
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')

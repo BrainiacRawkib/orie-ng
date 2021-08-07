@@ -69,29 +69,7 @@ function getSumOfElements(elementName){
 
 /* splidejs */
 
-/* secondary slider */
 document.addEventListener('DOMContentLoaded', function () {
-//     let secondarySlider = new Splide('#secondary-slider', {
-//         fixedWidth: 100,
-//         fixedHeight: 64,
-//         gap: 10,
-//         rewind: true,
-//         arrows: false,
-//         cover: true,
-//         autoplay: true,
-//         pagination: false,
-//         isNavigation: true,
-//         focus: 'center',
-//         speed: 2000,
-//         breakpoints: {
-//             '600': {
-//                 // fixedWidth: 66,
-//                 // fixedHeight: 40,
-//                 perPage: 0,
-//             }
-//         }
-//     }).mount();
-
     /* primary slider */
     let primarySlider = new Splide( '#primary-slider', {
         type: 'fade',
@@ -109,29 +87,5 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-    // primarySlider.sync(secondarySlider).mount()
     primarySlider.mount()
-
-    /* product image slider */
-    let productSlider = new Splide('#product-image-slider', {
-        fixedWidth: 100,
-        // fixedHeight: 40,
-        gap: 10,
-        rewind: true,
-        // arrows: false,
-        // cover: true,
-        // autoplay: true,
-        pagination: false,
-        // isNavigation: true,
-        // focus: 'center',
-        // speed: 2000,
-        // breakpoints: {
-        //     '600': {
-        //         fixedWidth: 66,
-        //         fixedHeight: 40,
-        //         perPage: 0,
-        //     }
-        // }
-    });
-    productSlider.mount();
 });

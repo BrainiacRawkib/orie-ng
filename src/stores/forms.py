@@ -1,6 +1,5 @@
 from django import forms
-from django.forms.models import inlineformset_factory, modelformset_factory, modelform_factory
-from .models import Review, Product, ProductImages
+from .models import Review, Product
 
 REVIEW_CHOICES = [
     ('1', '1'),
@@ -46,18 +45,3 @@ class ProductAddForm(forms.ModelForm):
                 }
             )
         }
-
-
-class ProductImageForm(forms.ModelForm):
-
-    class Meta:
-        model = ProductImages
-        fields = ['image']
-        # widgets = {
-        #     'product': forms.HiddenInput()
-        # }
-
-
-ProductImageForms = modelformset_factory(model=ProductImages, form=ProductImageForm, extra=3)
-
-# ProductImageForms = inlineformset_factory(Product, ProductImages, fields=['im'])

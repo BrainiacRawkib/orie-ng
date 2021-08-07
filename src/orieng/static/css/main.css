@@ -275,6 +275,11 @@ body {
     height: 450px;
 }
 
+#thumbnails img {
+  width: 150px;
+  height: 150px;
+}
+
 .modal-content {
   border: 2px solid white;
   width: 96%;
