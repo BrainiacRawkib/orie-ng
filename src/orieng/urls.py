@@ -15,7 +15,7 @@ sitemaps = {
 urlpatterns = [
     path('jet/', include('jet.urls', namespace='jet')),
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
-    path('orie-admin/', admin.site.urls),
+    path('orieng-admin/', admin.site.urls),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('help/', include('contacts.urls', namespace='contacts')),

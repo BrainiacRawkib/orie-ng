@@ -20,7 +20,7 @@ class RobotsTxt(TemplateView):
     def get(self, request, *args, **kwargs):
         lines = [
             "User-Agent: *",
-            "Disallow: /orie-admin/",
+            "Disallow: /orieng-admin/",
             "Disallow: /accounts/",
         ]
         return HttpResponse('\n'.join(lines), content_type='text/plain')
@@ -28,15 +28,9 @@ class RobotsTxt(TemplateView):
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
-        form = request.session
-        meta = request.META
-        headers = request.headers
         mvp_merchants = User.objects.filter(is_merchant=True, is_mvp=True)
         context = {
             'title': 'Welcome to Orie Store ☺',
-            'form': form,
-            'headers': headers,
-            'meta': meta,
             'mvp_merchants': mvp_merchants
         }
         return render(self.request, 'stores/home.html', context)

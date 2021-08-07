@@ -38,7 +38,7 @@ cert.key
 # Distribution / packaging
 .Python build/
 develop-eggs/
-dist/
+orieng/static/lightbox/
 downloads/
 eggs/
 .eggs/

@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.getenv('DEBUG') == 'True')
 
-ALLOWED_HOSTS = ['orie.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['orieng.com', 'localhost', '127.0.0.1']
 
 # admins
 ADMINS = [
@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'tinymce',
     'crispy_forms',
 
-    # orie apps
+    # orieng apps
     'accounts.apps.AccountsConfig',
     'cart.apps.CartConfig',
     'contacts.apps.ContactsConfig',
