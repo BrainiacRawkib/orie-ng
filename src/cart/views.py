@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
-
+from django.contrib import messages
 from .cart import Cart
 from .forms import CartAddProductForm
 from stores.models import Product
@@ -13,10 +13,14 @@ class CartAddView(View):
         cart = Cart(self.request)
         product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
         form = CartAddProductForm(self.request.POST)
-        if form.is_valid():
+        if form.is_valid() and product.stocks_left > 0:
             cd = form.cleaned_data
+            if cd['quantity'] > product.stocks_left:
+                cd['quantity'] = product.stocks_left
             cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
-        return redirect('cart:cart-detail')
+            return redirect('cart:cart-detail')
+        messages.error(self.request, 'Product not available')
+        return redirect('stores:product-detail', product.slug)
 
 
 class CartDetailView(View):

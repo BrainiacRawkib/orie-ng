@@ -3,8 +3,6 @@ from django.conf import settings
 from stores.models import Product
 from coupons.models import Coupon
 
-# from .models import CartItems
-
 
 class Cart:
     def __init__(self, request):
@@ -63,6 +61,9 @@ class Cart:
         if override_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
+            # if self.cart[product_id]['quantity'] > product.stocks_left:
+            #     self.cart[product_id]['quantity'] = product.stocks_left
+            # else:
             self.cart[product_id]['quantity'] += quantity
         self.save()
 

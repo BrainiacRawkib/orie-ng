@@ -10,6 +10,7 @@ from .forms import OrderCreateForm
 from .tasks import order_created, order_status_change_notification
 
 from cart.cart import Cart
+from stores.models import Product
 
 gateway = paystack.PaystackGateway(secret_key=settings.PAYSTACK_TEST_SECRET_KEY,
                                    public_key=settings.PAYSTACK_TEST_PUBLIC_KEY)
@@ -82,6 +83,9 @@ class OrderCreateView(View):
                 for item in cart:
                     OrderItem.objects.create(order=order, product=item['product'],
                                              price=item['price'], quantity=item['quantity'])
+                    product = Product.objects.get(name=item['product'])
+                    product.stocks_left -= int(item['quantity'])
+                    product.save()
                 # clear the cart
                 cart.clear()
 

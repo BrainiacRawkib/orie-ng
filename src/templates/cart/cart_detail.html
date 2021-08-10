@@ -28,7 +28,7 @@
                         {{ product.name }}
                     </div>
                     <div class="cart-item col-12 col-lg-2 align-self-center">
-                        {% if product.available %}
+                        {% if product.available and product.stocks_left > 0 %}
                             <div class="text-green mb-0 text-center">
                                 Available
                             </div>
@@ -48,10 +48,17 @@
                                 {{ item.update_quantity_form.quantity }}
                                 {{ item.update_quantity_form.override }}
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn text-white" data-toggle="tooltip" data-placement="top" title="Update">
+                                    {% if product.stocks_left > 0 %}
+                                        <button type="submit" class="btn text-white" data-toggle="tooltip" data-placement="top" title="Update">
+    {#                                        <i class="fas fa-edit"></i>#}
+                                            update
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" class="btn text-white" data-toggle="tooltip" data-placement="top" title="Update" disabled>
 {#                                        <i class="fas fa-edit"></i>#}
-                                        update
-                                    </button>
+                                            update
+                                        </button>
+                                    {% endif %}
                                 </span>
                             </span>
                         </form>
@@ -162,6 +169,18 @@
         </div>
     </div>
     <br>
+    <p>
+        {{ cart_cart }}
+    </p>
+    <p>
+        {{ cart_products }}
+    </p>
+    <p>
+        {{ cart_items }}
+    </p>
+    <p>
+        {{ cart_keys }}
+    </p>
     {% if recommended_products %}
         <div class="card shadow-custom border-0 col-lg-12 mx-auto">
             <p>{{ cart_cart }}</p>

@@ -49,10 +49,18 @@
                     </p>
 
                     <p class="text-grey">
-                        <strong>Stock left&colon;</strong> <span class="text-warning">5 stocks left</span>
+                        <strong>Stock left&colon;
+                            <span class="text-warning">
+                                {% if product.stocks_left %}
+                                    {{ product.stocks_left }} stock{{ product.stocks_left|pluralize }} left
+                                {% else %}
+                                    No stock left
+                                {% endif %}
+                            </span>
+                        </strong>
                     </p>
 
-                    {% if product.available %}
+                    {% if product.available and product.stocks_left > 0 %}
                         <div class="alert alert-success my-3 text-center">
                             <strong>Available</strong>
                         </div>
@@ -85,7 +93,7 @@
                                 {{ cart_product_form.quantity }}
                                 <span id="plus" class="input-group-text button_minus px-4">&plus;</span>
                                 <div class="input-group-append">
-                                    {% if product.available %}
+                                    {% if product.available and product.stocks_left > 0 %}
                                         <button type="submit" class="btn btn-danger px-4 reduce_padding" data-toggle="tooltip" title="Add to cart" data-placement="top">
                                             <i class="fas fa-shopping-cart"></i>
                                         </button>
