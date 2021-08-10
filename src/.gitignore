@@ -11,6 +11,7 @@ cert.crt
 cert.key
 ../api_keys.txt
 ../app_password.txt
+../app.txt
 #posts.json
 
 # Backup files #
@@ -38,7 +39,6 @@ cert.key
 # Distribution / packaging
 .Python build/
 develop-eggs/
-orieng/static/lightbox/
 downloads/
 eggs/
 .eggs/
