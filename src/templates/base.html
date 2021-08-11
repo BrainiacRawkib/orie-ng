@@ -24,12 +24,12 @@
             <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
             <link rel="stylesheet" href="{% static 'splide/css/splide.min.css' %}">
             <link rel="stylesheet" href="{% static 'css/all.css' %}">
-            <link rel="stylesheet" href="{% static 'css/main.css' %}">
-            <link rel="stylesheet" href="{% static 'lightbox/css/lightbox.min.css' %}">
         {% else %}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
         {% endif %}
+        <link rel="stylesheet" href="{% static 'lightbox/css/lightbox.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% endblock %}
     {% if title %}
         <title>Orie | {{ title }}</title>

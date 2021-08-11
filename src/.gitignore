@@ -9,9 +9,10 @@ db.sqlite3
 /media
 cert.crt
 cert.key
+app_pass.txt
+./app_pass.txt
 ../api_keys.txt
 ../app_password.txt
-../app.txt
 #posts.json
 
 # Backup files #

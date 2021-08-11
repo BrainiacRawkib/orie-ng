@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.sessions.models import Session
 from .models import User, Profile
 
 
@@ -18,14 +17,3 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display_links = ['id', 'user']
     raw_id_fields = ['user']
     list_per_page = 20
-
-
-# admin.site.register(Session)
-
-
-@admin.register(Session)
-class SessionAdmin(admin.ModelAdmin):
-    def _session_data(self, obj):
-        return obj.get_decoded()
-    list_display = ['session_key', '_session_data']
-    search_fields = ['session_key']

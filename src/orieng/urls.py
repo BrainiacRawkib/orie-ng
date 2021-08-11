@@ -27,5 +27,10 @@ urlpatterns = [
     path('', include('stores.urls', namespace='stores')),
 ]
 
+# admin custom-titles
+admin.site.site_header = "Orieng Admin"
+admin.site.site_title = "Orieng Admin Portal"
+admin.site.index_title = "Welcome to Orieng Admin Portal"
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

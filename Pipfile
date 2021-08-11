@@ -13,13 +13,18 @@ django-tinymce = "*"
 six = "*"
 paystack-api = "*"
 redis = "*"
-weasyprint = "*"
+weasyprint = "==52.4"
 celery = "*"
 django-heroku = "*"
 flower = "*"
 django-3-jet = {file = "https://github.com/Barukimang/django-jet/archive/dev.zip"}
 django-extensions = "*"
 django-filter = "*"
+feedparser = "*"
+werkzeug = "*"
+pyopenssl = "*"
+django-cloudinary-storage = "*"
+gunicorn = "*"
 
 [dev-packages]
 

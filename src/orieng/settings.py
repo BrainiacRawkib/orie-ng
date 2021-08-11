@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'django.contrib.humanize',
     'django.contrib.sites',
     'django.contrib.sitemaps',
@@ -174,12 +176,15 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'orieng/static')
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
+
+# cloudinary config
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL')
 
 # email config
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
@@ -218,6 +223,18 @@ PAYSTACK_WEBHOOK_IP_ADDRESSES = [
     os.getenv('PAYSTACK_WEBHOOK_IP_2'),
     os.getenv('PAYSTACK_WEBHOOK_IP_3'),
 ]
+
+# django-jet config
+
+JET_THEMES = [
+    {
+        'theme': 'default',  # theme folder name
+        'color': '#47bac1',  # color of the theme's button in user menu
+        'title': 'Default'  # theme title
+    },
+]
+
+JET_SIDE_MENU_COMPACT = True
 
 # TinyMCE Settings
 TINYMCE_DEFAULT_CONFIG = {
