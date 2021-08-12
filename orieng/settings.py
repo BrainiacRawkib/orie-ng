@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import django_heroku
 from pathlib import Path
-from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 load_dotenv()

@@ -1,10 +1,11 @@
 import redis
+from urllib.parse import urlparse
 from django.conf import settings
 from .models import Product
 
 
 # connect to redis
-redis_url = settings.REDIS_URL
+redis_url = urlparse(settings.REDIS_URL)
 if settings.DEBUG:
     r = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
 else:
