@@ -212,10 +212,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 CART_SESSION_ID = 'cart'
 
 # redis config
-REDIS_HOST = os.getenv('REDIS_HOST') or os.getenv('REDIS_URL')
-REDIS_PORT = int(os.getenv('REDIS_PORT')) or os.getenv('REDIS_URL')
-REDIS_DB = int(os.getenv('REDIS_DB')) or os.getenv('REDIS_URL')
-REDIS_URL = os.getenv('REDIS_URL') or os.getenv('REDIS_URL')
+REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_PORT = int(os.getenv('REDIS_PORT'))
+REDIS_DB = int(os.getenv('REDIS_DB'))
+REDIS_URL = os.getenv('REDIS_TLS_URL')
 
 # paystack config
 PAYSTACK_TEST_SECRET_KEY = os.getenv('PAYSTACK_TEST_SECRET_KEY')

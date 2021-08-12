@@ -4,10 +4,12 @@ from .models import Product
 
 
 # connect to redis
-redis_prod_url = settings.REDIS_URL
-r = redis.Redis(host=settings.REDIS_HOST or redis_prod_url.hostname,
-                port=settings.REDIS_PORT or redis_prod_url.port,
-                db=settings.REDIS_DB or redis_prod_url.db)
+redis_url = settings.REDIS_URL
+if settings.DEBUG:
+    r = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
+else:
+    r = redis.Redis(host=redis_url.hostname, port=redis_url.port,
+                    username=redis_url.username, password=redis_url.password, ssl=True, ssl_cert_reqs=None)
 
 
 class Recommender:
