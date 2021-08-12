@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['orieng.herokuapp.com', 'https://orieng.herokuapp.com']
 
 # admins
 ADMINS = [
-    os.getenv('ADMIN'), os.getenv('EMAIL_HOST_USER')
+    (os.getenv('ADMIN'), os.getenv('EMAIL_HOST_USER'))
 ]
 
 MANAGERS = ADMINS
