@@ -214,7 +214,7 @@ CART_SESSION_ID = 'cart'
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = int(os.getenv('REDIS_PORT'))
 REDIS_DB = int(os.getenv('REDIS_DB'))
-REDIS_URL = os.getenv('REDIS_TLS_URL')
+REDIS_URL = os.getenv('REDIS_URL')
 
 # paystack config
 PAYSTACK_TEST_SECRET_KEY = os.getenv('PAYSTACK_TEST_SECRET_KEY')
