@@ -29,7 +29,7 @@ class CustomerSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         current_site = get_current_site(self.request)
-        mail_subject = 'Orie Confirm Your Email'
+        mail_subject = 'Orieng Confirm Your Email'
         activation_context = {
             'user': user,
             'domain': current_site,

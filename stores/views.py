@@ -30,7 +30,7 @@ class HomeView(View):
     def get(self, request, *args, **kwargs):
         mvp_merchants = User.objects.filter(is_merchant=True, is_mvp=True)
         context = {
-            'title': 'Welcome to Orie Store ☺',
+            'title': 'Welcome to Orieng Store ☺',
             'mvp_merchants': mvp_merchants
         }
         return render(self.request, 'stores/home.html', context)

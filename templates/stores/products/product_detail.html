@@ -19,12 +19,14 @@
                         <strong>Category&colon;</strong> {{ product.category }}
                     </p>
 
-                    <p class="text-grey">
-                        <strong>Merchant&colon;</strong>
-                        <a href="{% url 'accounts:merchant-detail' product.merchant.username %}" class="text-decoration-none">
-                            {{ product.merchant.username }}
-                        </a>
-                    </p>
+                    {% if request.user.is_authenticated and request.user.is_superuser %}
+                        <p class="text-grey">
+                            <strong>Merchant&colon;</strong>
+                            <a href="{% url 'accounts:merchant-detail' product.merchant.username %}" class="text-decoration-none">
+                                {{ product.merchant.username }}
+                            </a>
+                        </p>
+                    {% endif %}
 
                     <p class="text-grey">
                         {% if product.created_delta.days < 5 %}
