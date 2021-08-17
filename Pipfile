@@ -26,6 +26,7 @@ pyopenssl = "*"
 django-cloudinary-storage = "*"
 gunicorn = "*"
 django-redis = "*"
+pika = "*"
 
 [dev-packages]
 
