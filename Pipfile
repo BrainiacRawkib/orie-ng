@@ -25,6 +25,7 @@ werkzeug = "*"
 pyopenssl = "*"
 django-cloudinary-storage = "*"
 gunicorn = "*"
+django-redis = "*"
 
 [dev-packages]
 
