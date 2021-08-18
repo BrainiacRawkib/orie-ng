@@ -4,7 +4,6 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-md orie-bg-primary navbar-dark sticky-top" id="home-navbar">
     <a href="{% url 'stores:product-listings' %}" class="navbar-brand" id="navbar-brand-text">
-{#        <img src="{% static 'img/orie_bg_1.jpg' %}" alt="favicon" class="rounded-circle" width="30" height="30">#}
         <i class="fas fa-home"></i> Orieng
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -80,7 +79,7 @@
             {% endif %}
             {% if request.path == '/' %}
                 <li class="nav-item mr-3">
-                    <a href="{% url 'stores:product-listings' %}" class="nav-link bg-primary text-white btn">
+                    <a href="{% url 'stores:product-listings' %}" class="nav-link text-white">
                         <i class="fas fa-shopping-cart"></i> Start shopping
                     </a>
                 </li>

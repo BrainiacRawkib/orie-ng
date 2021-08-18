@@ -72,7 +72,6 @@ function getSumOfElements(elementName){
 document.addEventListener('DOMContentLoaded', function () {
     /* primary slider */
     let primarySlider = new Splide( '#primary-slider', {
-        type: 'fade',
         heightRatio: 0.42,
         pagination: true,
         arrows: true,
