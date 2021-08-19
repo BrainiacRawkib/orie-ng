@@ -42,36 +42,4 @@
             </div>
         </div>
     </div>
-
-    <!-- mvp merchants -->
-    {% if mvp_merchants %}
-        <div class="container mt-3">
-            <h3 class="text-center">
-                <strong>MVP Merchants</strong>
-            </h3>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                {% for merchant in mvp_merchants %}
-                    <div class="col-sm-6 col-md-3">
-                        <div class="card mt-2">
-                            <div class="col mt-2">
-                                <a href="{% url "stores:merchant-store" merchant.username %}">
-                                    <img src="{{ merchant.profile.image.url }}" alt="{{ merchant.username }}" class="card-img-top" width="230" height="250">
-                                </a>
-                            </div>
-                            <div class="card-body text-center">
-                                {{ merchant.username }}&apos;s store
-                            </div>
-                            <div class="card-footer text-center">
-                                <a href="{% url 'stores:merchant-store' merchant.username %}" class="text-primary text-decoration-none">
-                                    <strong>Visit {{ merchant.username }}&apos;s store</strong>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
 {% endblock %}
