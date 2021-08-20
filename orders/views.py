@@ -1,6 +1,7 @@
 import paystack
 import weasyprint
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.shortcuts import render, get_object_or_404, reverse
@@ -50,7 +51,7 @@ def invoice_pdf(request, order_id):
     return response
 
 
-class OrderCreateView(View):
+class OrderCreateView(LoginRequiredMixin, View):
     """Form to create an order."""
 
     def get(self, request, *args, **kwargs):
