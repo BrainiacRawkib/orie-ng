@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .cart import Cart
 from .forms import CartAddProductForm
 from stores.models import Product
@@ -8,7 +9,7 @@ from coupons.forms import CouponApplyForm
 from stores.recommender import Recommender
 
 
-class CartAddView(View):
+class CartAddView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         cart = Cart(self.request)
         product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
