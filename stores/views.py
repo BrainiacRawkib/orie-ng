@@ -17,6 +17,8 @@ from .recommender import Recommender
 
 
 class RobotsTxt(TemplateView):
+    """robot.txt file class."""
+
     def get(self, request, *args, **kwargs):
         lines = [
             "User-Agent: *",
@@ -27,6 +29,8 @@ class RobotsTxt(TemplateView):
 
 
 class HomeView(View):
+    """Landing page."""
+
     def get(self, request, *args, **kwargs):
         mvp_merchants = User.objects.filter(is_merchant=True, is_mvp=True)
         context = {
@@ -37,6 +41,7 @@ class HomeView(View):
 
 
 class SearchView(View):
+    """Search results page."""
 
     def get(self, request, *args, **kwargs):
         results = None
@@ -54,6 +59,8 @@ class SearchView(View):
 
 
 class ProductListingsView(ListView):
+    """List all products in the catalog."""
+
     model = Product
     template_name = 'stores/products/product_listings.html'
     queryset = Product.stocked.order_by('-date_added')
@@ -75,6 +82,8 @@ class ProductListingsView(ListView):
 
 
 class ProductDetailView(DetailView):
+    """Displays a product details."""
+
     model = Product
     template_name = 'stores/products/product_detail.html'
     r = Recommender()
@@ -123,6 +132,8 @@ class ProductDetailView(DetailView):
 
 
 class ProductCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    """Add a new Product."""
+
     model = Product
     form_class = ProductAddForm
     permission_denied_message = 'You are not allowed to add a product.'
@@ -137,6 +148,8 @@ class ProductCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 
 class ProductUpdateView(SuccessMessageMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """Updates an existing product by its merchant."""
+
     model = Product
     form_class = ProductAddForm
     template_name = 'stores/products/product_update.html'
@@ -163,6 +176,8 @@ class ProductUpdateView(SuccessMessageMixin, LoginRequiredMixin, UserPassesTestM
 
 
 class MerchantStoreView(ListView):
+    """List all products in a merchant's store."""
+
     model = Product
     template_name = 'stores/merchant_store.html'
     paginate_by = 10

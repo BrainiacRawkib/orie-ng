@@ -19,7 +19,7 @@ def paystack_webhook(request):
         containing the json data from paystack webhook client.
         Django's http request and response object was used
         for this example.
-        """
+    """
     paystack_sk = settings.PAYSTACK_TEST_SECRET_KEY
     payload = json.loads(request.body)
     computed_hmac = hmac.new(bytes(paystack_sk, 'utf-8'), str.encode(request.body.decode('utf-8')),
@@ -39,26 +39,6 @@ def paystack_webhook(request):
         order.save()
         return HttpResponse(status=200)
     return HttpResponse(status=400)  # non 200
-
-
-class PaymentProcessView(View):
-
-    def get_order_id(self):
-        order_id = self.request.session.get('order_id')
-        order = get_object_or_404(Order, id=order_id)
-        return order
-
-    def get(self, request, *args, **kwargs):
-
-        return render(self.request, 'payments/payment_process.html', {
-            'order': self.get_order_id(),
-            'total_cost': self.get_order_id().get_total_cost(),
-            'paystack_public_key': settings.PAYSTACK_TEST_PUBLIC_KEY,
-            'title': 'Pay',
-        })
-
-    def post(self, request, *args, **kwargs):
-        return HttpResponse
 
 
 class PaymentCompleteView(TemplateView):

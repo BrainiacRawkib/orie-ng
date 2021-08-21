@@ -10,7 +10,7 @@ UserModel = get_user_model()
 
 class EmailAuthentication(ModelBackend):
     """
-    Custom Authentication against settings.AUTH_USER_MODEL.
+    Custom Email Authentication against settings.AUTH_USER_MODEL.
     """
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:

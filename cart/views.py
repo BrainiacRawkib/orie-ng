@@ -10,6 +10,10 @@ from stores.recommender import Recommender
 
 
 class CartAddView(LoginRequiredMixin, View):
+    """
+    Add items to the cart.
+    Accepts only POST request.
+    """
     def post(self, request, *args, **kwargs):
         cart = Cart(self.request)
         product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
@@ -25,6 +29,11 @@ class CartAddView(LoginRequiredMixin, View):
 
 
 class CartDetailView(View):
+    """
+    View all items in the cart.
+    Accepts only GET request.
+    """
+
     def get(self, request, *args, **kwargs):
         cart = Cart(self.request)
         r = Recommender()
@@ -51,6 +60,10 @@ class CartDetailView(View):
 
 
 class CartRemoveView(View):
+    """
+    Remove items from the cart.
+    Accepts only POST request.
+    """
     def post(self, request, *args, **kwargs):
         cart = Cart(self.request)
         product = get_object_or_404(Product, pk=self.kwargs.get('pk'))

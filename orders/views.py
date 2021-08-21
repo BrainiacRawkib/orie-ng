@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.shortcuts import render, get_object_or_404, reverse
-from django.views.generic import View, DetailView, TemplateView
+from django.views.generic import View, DetailView
 from .models import OrderItem, Order
 from .forms import OrderCreateForm
 from .tasks import order_created, order_status_change_notification
@@ -18,6 +18,8 @@ gateway = paystack.PaystackGateway(secret_key=settings.PAYSTACK_TEST_SECRET_KEY,
 
 
 def get_user_details(request):
+    """Get user details."""
+
     initial_data = {
         'first_name': request.user.first_name,
         'last_name': request.user.last_name,
@@ -32,14 +34,18 @@ def get_user_details(request):
 
 
 def get_order_form(data=None, initial_data=None):
+    """Get form to create an Order"""
     return OrderCreateForm(data=data, initial=initial_data)
 
 
 def get_cart(request):
+    """Get Cart."""
     return Cart(request)
 
 
 def invoice_pdf(request, order_id):
+    """Invoice for each order in PDF Format."""
+
     order = get_object_or_404(Order, id=order_id)
     html = render_to_string('orders/pdf.html', {'order': order})
     response = HttpResponse(content_type='application/pdf')
@@ -52,7 +58,7 @@ def invoice_pdf(request, order_id):
 
 
 class OrderCreateView(LoginRequiredMixin, View):
-    """Form to create an order."""
+    """Create an order."""
 
     def get(self, request, *args, **kwargs):
         order_form = get_order_form(data=None, initial_data=None)
@@ -110,21 +116,9 @@ class OrderCreateView(LoginRequiredMixin, View):
                 return link
 
 
-class OrderCreatedView(TemplateView):
-    template_name = 'orders/order_created.html'
-
-    def get_order_id(self):
-        order_id = self.request.session.get('order_id')
-        order = get_object_or_404(Order, id=order_id)
-        return order
-
-    def get(self, request, *args, **kwargs):
-        return self.render_to_response({
-            'order': self.get_order_id()
-        })
-
-
 class OrderDetailView(DetailView):
+    """Displays an Order details to a user."""
+
     model = Order
     template_name = 'orders/order_detail.html'
 

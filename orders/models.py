@@ -11,6 +11,8 @@ from .models_choices import ORDER_STATUS
 
 
 class Order(models.Model):
+    """Order model."""
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders', on_delete=models.CASCADE)
     paystack_id = models.CharField(max_length=150, blank=True)
     coupon = models.ForeignKey(Coupon, related_name='orders', on_delete=models.SET_NULL, null=True, blank=True)
@@ -44,6 +46,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    """OrderItem model."""
+
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='order_items', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)

@@ -3,6 +3,8 @@ from .models import Product
 
 
 class ProductSitemap(Sitemap):
+    """Product sitemap."""
+
     changefreq = 'daily'
     priority = 0.9
 

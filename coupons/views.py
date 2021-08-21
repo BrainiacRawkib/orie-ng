@@ -1,12 +1,13 @@
 from django.shortcuts import redirect
 from django.views.generic.base import View
-from django.views.decorators.http import require_POST
 from django.utils import timezone
 from .models import Coupon
 from .forms import CouponApplyForm
 
 
 class CouponApplyView(View):
+    """Apply a coupon if available."""
+
     def post(self, request, *args, **kwargs):
         now = timezone.now()
         form = CouponApplyForm(request.POST)

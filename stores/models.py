@@ -9,15 +9,19 @@ from .exceptions import UserNotAMerchant
 
 
 def get_product_name(instance, filename):
-    name = instance.name
+    name = instance.name  # get product name
     year = instance.date_added.year
     month = instance.date_added.month
     day = instance.date_added.day
     # return f'products/{name}/{year}/{month}/{day}/{filename}'
+    # save product images to products/ with the products' names
+    # as the name of the folder.
     return 'products/{}/{}/{}/{}/{}'.format(name, year, month, day, filename)
 
 
 class Category(models.Model):
+    """Category model."""
+
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
 
@@ -33,11 +37,15 @@ class Category(models.Model):
 
 
 class AvailableProductManager(models.Manager):
+    """Products marked as Available=True in the catalog."""
+
     def get_queryset(self):
         return super(AvailableProductManager, self).get_queryset().filter(available=True)
 
 
 class Product(models.Model):
+    """Product model."""
+
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     merchant = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
@@ -86,6 +94,8 @@ class Product(models.Model):
 
 
 class Review(models.Model):
+    """Review model."""
+
     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
     author = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
     ratings = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])

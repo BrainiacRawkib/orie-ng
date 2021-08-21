@@ -28,6 +28,8 @@ class ReviewForm(forms.ModelForm):
 
 
 class ProductAddForm(forms.ModelForm):
+    """Form to allow merchants add Products to Catalog."""
+
     available = forms.BooleanField(initial=True, required=False)
 
     class Meta:

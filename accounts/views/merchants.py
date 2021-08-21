@@ -17,6 +17,8 @@ UserModel = get_user_model()
 
 
 class MerchantSignUpView(CreateView):
+    """New user to sign up as a merchant."""
+
     model = User
     form_class = MerchantSignUpForm
     template_name = 'accounts/merchants/merchant_signup.html'
@@ -47,6 +49,8 @@ class MerchantSignUpView(CreateView):
 
 
 class AccountActivateView(View):
+    """Activate account through email."""
+
     def get(self, request, *args, **kwargs):
         try:
             uid = urlsafe_base64_decode(self.kwargs.get('uidb64')).decode()
@@ -64,7 +68,8 @@ class AccountActivateView(View):
 
 
 class MerchantProfileView(LoginRequiredMixin, TemplateView, View):
-    """User ProfileView."""
+    """A Merchant should view its Profile."""
+
     template_name = 'accounts/merchants/merchant_profile.html'
 
     def get_user_formset(self, data=None):
@@ -97,6 +102,8 @@ class MerchantProfileView(LoginRequiredMixin, TemplateView, View):
 
 
 class ListMerchantsProfileView(ListView):
+    """List all merchants."""
+
     model = User
     template_name = 'accounts/merchants/list_merchants_profile.html'
     extra_context = {'title': 'All Merchants'}
@@ -108,6 +115,8 @@ class ListMerchantsProfileView(ListView):
 
 
 class ViewMerchantProfileView(DetailView):
+    """View individual merchant's profile."""
+
     model = User
     template_name = 'accounts/merchants/view_merchant_profile.html'
     slug_field = 'username'

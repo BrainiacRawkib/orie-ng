@@ -5,15 +5,19 @@ from .exceptions import MultipleUserAccountException
 
 
 def user_profile_images(instance, filename):
-    date = now()
-    username = instance.user.username
+    date = now()  # get current date
+    username = instance.user.username  # get the user's username
     year = date.year
     month = date.month
     day = date.day
+    # save user images to profile_images/ with their username
+    # as the name of the folder.
     return f'profile_images/{username}/{year}/{month}/{day}/{filename}'
 
 
 class User(AbstractUser):
+    """Custom User with extra fields."""
+
     is_customer = models.BooleanField(default=False)
     is_merchant = models.BooleanField(default=False)
     is_official = models.BooleanField(default=False)
@@ -32,6 +36,8 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
+    """User Profile model to associate one Profile to one User."""
+
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     image = models.ImageField(upload_to=user_profile_images, default='avatar.png')
 

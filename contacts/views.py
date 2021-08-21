@@ -7,6 +7,7 @@ from .forms import ContactForm
 
 
 def get_user_details(request):
+    # get user details
     user_data = {
         'name': request.user.username,
         'email': request.user.email
@@ -45,5 +46,7 @@ class ContactView(View):
 
 
 class MessageSentView(TemplateView):
+    """Displays this template if the Message was Successfully sent."""
+
     template_name = 'contacts/message_sent.html'
     extra_context = {'title': 'Sent'}

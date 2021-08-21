@@ -17,6 +17,8 @@ UserModel = get_user_model()
 
 
 class CustomerSignUpView(CreateView):
+    """New user to sign up as a customer."""
+
     model = User
     form_class = CustomerSignUpForm
     template_name = 'accounts/customers/customer_signup.html'
@@ -47,6 +49,8 @@ class CustomerSignUpView(CreateView):
 
 
 class AccountActivateView(View):
+    """Activate account through email."""
+
     def get(self, request, *args, **kwargs):
         try:
             uid = urlsafe_base64_decode(self.kwargs.get('uidb64')).decode()
@@ -64,7 +68,8 @@ class AccountActivateView(View):
 
 
 class CustomerProfileView(LoginRequiredMixin, TemplateView, View):
-    """User ProfileView."""
+    """A Customer should view its Profile."""
+
     template_name = 'accounts/customers/customer_profile.html'
 
     def get_user_formset(self, data=None):
@@ -97,6 +102,8 @@ class CustomerProfileView(LoginRequiredMixin, TemplateView, View):
 
 
 class ListCustomersProfileView(ListView):
+    """List all customers."""
+
     model = User
     template_name = 'accounts/customers/list_customers_profile.html'
     context_object_name = 'customers'
@@ -108,6 +115,8 @@ class ListCustomersProfileView(ListView):
 
 
 class ViewCustomerProfileView(DetailView):
+    """View individual customer's profile."""
+
     model = User
     template_name = 'accounts/customers/view_customer_profile.html'
     slug_field = 'username'

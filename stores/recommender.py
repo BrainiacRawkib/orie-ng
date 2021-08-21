@@ -14,6 +14,7 @@ else:
 
 
 class Recommender:
+    """Recommender class."""
 
     def get_product_key(self, id):
         return f'product:{id}:purchased_with'

@@ -34,6 +34,11 @@ def order_created(order_id):
 
 @shared_task
 def order_status_change_notification(order_id):
+    """
+    Task to update customers on the Order status.
+    :param order_id:
+    :return:
+    """
     order = Order.objects.get(id=order_id)
     subject = f'Order nr. {order.id}'
     msg = f'Hi {order.first_name, order.last_name}, \n\n' \

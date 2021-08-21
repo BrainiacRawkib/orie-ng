@@ -11,12 +11,15 @@ from ..forms import LoginForm
 
 
 class SignUpView(TemplateView):
+    """Sign up a new user."""
+
     template_name = 'accounts/registration/signup.html'
     extra_context = {'title': 'Account Type'}
 
 
 class UserLoginView(SuccessMessageMixin, auth_views.LoginView):
-    """User LoginView"""
+    """Logs a user in."""
+
     form_class = LoginForm
     extra_context = {'title': 'Login'}
     success_message = 'Access Granted'
@@ -27,6 +30,8 @@ class UserLoginView(SuccessMessageMixin, auth_views.LoginView):
 
 
 class AccountDeactivateView(LoginRequiredMixin, TemplateView, View):
+    """Deactivates a user account."""
+
     template_name = 'accounts/auths/account_deactivate.html'
 
     def get(self, request, *args, **kwargs):
@@ -43,33 +48,31 @@ class AccountDeactivateView(LoginRequiredMixin, TemplateView, View):
 
 
 def logout_request(request):
-    """Logout request"""
-    # try:
-    #     for key in list(request.session.keys()):
-    #         if key == 'cart':
-    #             continue
-    #         del request.session[key]
-    #         # logout(request)
-    #         # messages.success(request, 'Logged Out')
-    # except KeyError:
-    #     pass
+    """Logout a user."""
+
     logout(request)
     messages.success(request, 'Logged Out')
     return redirect('stores:product-listings')
 
 
 class PasswordChangeView(auth_views.PasswordChangeView):
+    """Changes password for a user."""
+
     template_name = 'accounts/auths/password_change.html'
     extra_context = {'title': 'Change Password'}
     success_url = reverse_lazy('accounts:password-change-done')
 
 
 class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):
+    """Password change complete."""
+
     template_name = 'accounts/auths/password_change_done.html'
     extra_context = {'title': 'Password Change Done'}
 
 
 class PasswordResetView(auth_views.PasswordResetView):
+    """Reset password form for Forgotten passwords."""
+
     template_name = 'accounts/auths/password_reset_form.html'
     extra_context = {'title': 'Password Reset'}
     success_url = reverse_lazy('accounts:password-reset-done')
@@ -77,16 +80,22 @@ class PasswordResetView(auth_views.PasswordResetView):
 
 
 class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    """A link sent to user's email to reset the password."""
+
     template_name = 'accounts/auths/password_reset_done.html'
     extra_context = {'title': 'Password Reset Done'}
 
 
 class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    """Confirm the link sent for resetting password."""
+
     template_name = 'accounts/auths/password_reset_confirm.html'
     extra_context = {'title': 'Password Reset Confirm'}
     success_url = reverse_lazy('accounts:password-reset-complete')
 
 
 class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    """Successfully reset password."""
+
     template_name = 'accounts/auths/password_reset_complete.html'
     extra_context = {'title': 'Password Reset Complete'}

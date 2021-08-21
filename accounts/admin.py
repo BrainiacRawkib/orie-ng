@@ -4,6 +4,8 @@ from .models import User, Profile
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+    """Register the User model in the admin site."""
+
     list_display = ['id', 'username', 'is_customer', 'is_merchant', 'is_mvp', 'email', 'contact']
     list_filter = ['is_customer', 'is_merchant']
     list_display_links = ['id', 'username']
@@ -13,6 +15,8 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
+    """Register the Profile model in the admin site."""
+
     list_display = ['id', 'user']
     list_display_links = ['id', 'user']
     raw_id_fields = ['user']

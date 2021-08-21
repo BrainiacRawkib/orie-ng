@@ -3,6 +3,8 @@ from django.utils.timezone import now
 
 
 class Contact(models.Model):
+    """Contact model."""
+
     name = models.CharField(max_length=50)
     email = models.EmailField(blank=False)
     message = models.TextField()

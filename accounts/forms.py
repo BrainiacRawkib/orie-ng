@@ -4,11 +4,14 @@ from .models import User, Profile
 
 
 class LoginForm(AuthenticationForm):
+    """User login form."""
+
     username = forms.CharField(label='Email or Username')
 
 
 class CustomerSignUpForm(UserCreationForm):
-    """Registration form to add a new Customer"""
+    """Registration form to add a new Customer."""
+
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     username = forms.CharField(max_length=25, help_text='')
@@ -31,6 +34,8 @@ class CustomerSignUpForm(UserCreationForm):
         ]
 
     def save(self, commit=True):
+        # saves a new user as a customer but set is_active to False
+        # until user activates account through email.
         user = super(CustomerSignUpForm, self).save(commit=False)
         user.is_customer = True
         user.is_active = False
@@ -59,7 +64,8 @@ class CustomerSignUpForm(UserCreationForm):
 
 
 class MerchantSignUpForm(UserCreationForm):
-    """Registration form to add a new Merchant"""
+    """Registration form to add a new Merchant."""
+
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     username = forms.CharField(max_length=25, help_text='')
@@ -82,6 +88,8 @@ class MerchantSignUpForm(UserCreationForm):
         ]
 
     def save(self, commit=True):
+        # saves a new user as a merchant but set is_active to False
+        # until user activates account through email
         user = super(MerchantSignUpForm, self).save(commit=False)
         user.is_merchant = True
         user.is_active = False
@@ -110,7 +118,8 @@ class MerchantSignUpForm(UserCreationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    """Form to allow user update user details"""
+    """Form to allow user update their details."""
+
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     email = forms.EmailField(label='Email', required=True)
@@ -131,7 +140,8 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-    """Form to allow user update profile details"""
+    """Form to allow user update their profile details."""
+
     image = forms.ImageField(label='Photo', widget=forms.ClearableFileInput(attrs={'class': 'border'}))
 
     class Meta:

@@ -8,13 +8,17 @@ from stores.sitemaps import ProductSitemap
 from stores.views import RobotsTxt
 
 
+# sitemaps
 sitemaps = {
     'products': ProductSitemap
 }
 
 urlpatterns = [
+    # django-jet urls
     path('jet/', include('jet.urls', namespace='jet')),
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+
+    # orieng urls
     path('orieng-admin/', admin.site.urls),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('cart/', include('cart.urls', namespace='cart')),
@@ -27,7 +31,7 @@ urlpatterns = [
     path('', include('stores.urls', namespace='stores')),
 ]
 
-# admin custom-titles
+# admin custom titles
 admin.site.site_header = "Orieng Admin"
 admin.site.site_title = "Orieng Admin Portal"
 admin.site.index_title = "Welcome to Orieng Admin Portal"
