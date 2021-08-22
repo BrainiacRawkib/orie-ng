@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-_lmhqy%798941ysq)$5(+by35@l#+!&t3-mu*@p@f%)xt^4hh@'
+
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     # third-party apps
-    'django_extensions',
     'tinymce',
     'crispy_forms',
 
