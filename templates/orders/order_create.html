@@ -78,7 +78,6 @@
                             <a href="{% url 'stores:product-listings' %}" class="btn btn-warning shadow-custom col">
                                 <strong>Back to store</strong> <i class="fas fa-store"></i>
                             </a>
-{#                            <button type="submit" class="btn btn-success shadow-custom col" onclick="payWithPaystack()">#}
                             <button type="submit" class="btn btn-primary shadow-custom col">
                                 <strong>Create order</strong> <i class="fas fa-credit-card"></i>
                             </button>
@@ -88,54 +87,4 @@
             </div>
         </form>
     </div>
-
-    <!-- scripts -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script>
-        let order_details = {
-            first_name: "{{ order_form.first_name }}",
-            last_name: "{{ order_form.last_name }}",
-            email: "{{ order_form.email }}",
-            contact: "{{ order_form.contact }}",
-            address: "{{ order_form.address }}",
-            zip_code: "{{ order_form.zip_code }}",
-            city: "{{ order_form.city }}",
-            state: "{{ order_form.state }}",
-            csrfmiddlewaretoken: "{{ csrf_token }}",
-            dataType: "json",
-        }
-
-        const orderPaymentForm = document.getElementById('order-payment-form');
-        function saveOrder() {
-            let save_order = $.post('/order-create/', order_details);
-
-            save_order.done(function (data) {
-                return payWithPaystack(data);
-            })
-            save_order.fail(function (data) {
-                console.log(data.error.message)
-            })
-        }
-        orderPaymentForm.addEventListener('submit', payWithPaystack, false);
-        function payWithPaystack(e) {
-            e.preventDefault();
-
-            let handler = PaystackPop.setup({
-                key: "{{ paystack_public_key }}",
-                email: order_details.email,
-                amount: document.getElementById('amount').value * 100,
-                currency: "NGN",
-                onClose: function(){
-                      alert('Window closed.');
-                },
-                callback: function(response){
-                    let message = 'Payment complete! Reference: ' + response.reference;
-                    alert(message);
-                    window.location = {% url 'orders:order-created' %}
-                }
-            });
-
-            handler.openIframe();
-        }
-    </script>
 {% endblock %}
